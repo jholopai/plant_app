@@ -15,7 +15,22 @@ const Register = () => {
 	const {register, watch, handleSubmit, reset, formState:{errors}} = useForm<FormData>()
 
 	const registration: SubmitHandler<FormData> = (data) => {
-		console.log("Registration!")
+		
+		const body = {
+			username:data.username,
+			email:data.email,
+			password:data.password
+		}
+
+		const requestParameters = {
+			method:"POST",
+			headers:{'content-type':'application/json'},
+			body:JSON.stringify(body)
+		}
+
+		fetch('/auth/register', requestParameters)
+		.then(response=>response.json())
+		.catch(error=>console.log(error))
 		reset()
 	}
 
