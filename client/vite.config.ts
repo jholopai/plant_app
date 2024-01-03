@@ -8,7 +8,11 @@ export default defineConfig({
 		  "/auth/register": {
 			target: "http://0.0.0.0:5000/",
 		  },
+		  "/auth/login": {
+			target: "http://0.0.0.0:5000/",
+		  },
 		},
+		
 	  },
   
   plugins: [react()],

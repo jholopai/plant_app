@@ -1,7 +1,26 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useAuth, logout } from '../auth';
+
+const LoggedInLinks = () => {
+	return (
+		<>
+			<a className="btn btn-outline-secondary m-1" href="#" onClick={()=>{logout()}}>Logout</a>
+		</>
+)}
+
+const LoggedOutLinks = () => {
+	return (
+		<>
+			<Link className="btn btn-outline-secondary m-1" to="/login">Login</Link>
+			<Link className="btn btn-outline-secondary m-1" to="/register">Register</Link>
+		</>
+)}
 
 const Navbar = () => {
+
+	const [logged]=useAuth();
+
 	return (
 		<nav className="navbar navbar-expand-lg bg-body-tertiary">
 			<Link className="navbar-brand" to="/">The Plant App</Link>
@@ -24,9 +43,7 @@ const Navbar = () => {
 				</ul>
 			</div>
 			<div className="col-md-6 d-flex justify-content-end">
-				<Link className="btn btn-outline-secondary m-1" to="/logout">Logout</Link>
-				<Link className="btn btn-outline-secondary m-1" to="/login">Login</Link>
-				<Link className="btn btn-outline-secondary m-1" to="/register">Register</Link>
+			{logged?<LoggedInLinks/> : <LoggedOutLinks/>}
 			</div>
 		</nav>
 	)
