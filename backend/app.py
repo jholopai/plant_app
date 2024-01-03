@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from config import Development
 from models import User
 from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token
@@ -44,6 +44,23 @@ def login():
 	if user is not None and user.verify_password(data_password):
 		access_token=create_access_token(identity=user.username)
 		refresh_token=create_refresh_token(identity=user.username)
-		return jsonify({"access_token":access_token, "refresh_token":refresh_token})
+		return jsonify({"access_token":access_token, "refresh_token":refresh_token, "username":user.username})
 	else:
 		return jsonify({"message":"Invalid credentials."})
+
+@app.route('/auth/password', methods=['GET', 'POST'])
+def password_change():
+
+	data = request.get_json()
+	data_username = data.get('username')
+	data_old_password = data.get('old_password')
+	data_new_password = data.get('new_password')
+
+	user = User.query.filter_by(username=data_username).first()
+	if user is not None and user.verify_password(data_old_password):
+		user.password = data_new_password
+		db.session.commit()
+		return jsonify({"message":"The password has been updated."})
+	else:
+		error_response = {"message": "Incorrect password."}
+		return make_response(jsonify(error_response), 401)

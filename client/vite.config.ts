@@ -11,6 +11,9 @@ export default defineConfig({
 		  "/auth/login": {
 			target: "http://0.0.0.0:5000/",
 		  },
+		  "/auth/password": {
+			target: "http://0.0.0.0:5000/",
+		  },
 		},
 		
 	  },
