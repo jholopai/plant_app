@@ -1,9 +1,13 @@
-import React from 'react'
+import {React, useState } from 'react'
 import { Link } from 'react-router-dom'
-import {Form, Button} from 'react-bootstrap'
+import {Form, Button, Alert} from 'react-bootstrap'
 import {SubmitHandler, useForm} from 'react-hook-form'
 
 const Register = () => {
+
+	const [show,setShow] = useState(false)
+	const [isSuccesful, setIsSuccesful] = useState(true)
+	const [serverResponse,setServerResponse] = useState("")
 
 	interface FormData {
 		email: string,
@@ -29,13 +33,31 @@ const Register = () => {
 		}
 
 		fetch('/auth/register', requestParameters)
-		.then(response=>response.json())
-		.catch(error=>console.log(error))
+		.then(response => response.json())
+		.then(data => {
+			data.success ? setIsSuccesful(true) : setIsSuccesful(false)
+			setServerResponse(data.message)
+			setShow(true)
+		})
+		.catch(error=>{
+			setIsSuccesful(false)
+			setServerResponse("An error occurred. Please try again.");
+			setShow(true)
+			console.log(error)})
 		reset()
 	}
 
 	return (
 		<div className="container">
+			{show?
+			<>
+			<Alert variant={isSuccesful?"success":"danger"} onClose={() => setShow(false)} dismissible>
+				<p>
+					{serverResponse}
+				</p>
+			</Alert>
+			</>
+			:null}
 			<h1>Register</h1>
 			<div className="form">
 				<form onSubmit={handleSubmit(registration)}>

@@ -5,7 +5,7 @@ import { useAuth, logout } from '../auth';
 const LoggedInLinks = () => {
 	return (
 		<>
-			<a className="btn btn-outline-secondary m-1" href="#" onClick={()=>{logout()}}>Logout</a>
+			<a className="btn btn-outline-secondary m-1" href="#" onClick={()=>{localStorage.clear();logout()}}>Logout</a>
 		</>
 )}
 

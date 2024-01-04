@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, make_response
 from config import Development
 from models import User
-from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token
+from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, jwt_required
 from datetime import datetime
 from db import db
 
@@ -22,7 +22,8 @@ def register():
 	check_user = User.query.filter_by(username=data_username).first()
 
 	if check_user is not None:
-		return jsonify({"message":"User already exists."})
+		error_response = {"message": "This username is taken.", "success":False}
+		return (jsonify(error_response))
 
 	current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 	new_user = User(email=data_email,
@@ -31,7 +32,7 @@ def register():
 				date_joined=current_date)
 	db.session.add(new_user)
 	db.session.commit()
-	return jsonify({"message":"The new user {username} was added"})
+	return jsonify({"message":"The account was registered succesfully!", "success":True})
 
 @app.route('/auth/login', methods=['GET', 'POST'])
 def login():
@@ -44,11 +45,12 @@ def login():
 	if user is not None and user.verify_password(data_password):
 		access_token=create_access_token(identity=user.username)
 		refresh_token=create_refresh_token(identity=user.username)
-		return jsonify({"access_token":access_token, "refresh_token":refresh_token, "username":user.username})
+		return jsonify({"access_token":access_token, "refresh_token":refresh_token, "username":user.username, "success":True})
 	else:
-		return jsonify({"message":"Invalid credentials."})
+		return jsonify({"message":"The login credentials were invalid."})
 
 @app.route('/auth/password', methods=['GET', 'POST'])
+@jwt_required()
 def password_change():
 
 	data = request.get_json()
@@ -60,7 +62,6 @@ def password_change():
 	if user is not None and user.verify_password(data_old_password):
 		user.password = data_new_password
 		db.session.commit()
-		return jsonify({"message":"The password has been updated."})
+		return jsonify({"message":"The password has been updated.", "success":True})
 	else:
-		error_response = {"message": "Incorrect password."}
-		return make_response(jsonify(error_response), 401)
+		return jsonify({"message": "The old password was incorrect.", "success":False})

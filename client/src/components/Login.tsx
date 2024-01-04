@@ -1,11 +1,14 @@
-import React from 'react'
+import {React, useState } from 'react'
 import { login } from '../auth'
 import { Link } from 'react-router-dom'
-import {Form, Button} from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import {Form, Button, Alert} from 'react-bootstrap'
 import {useForm, SubmitHandler} from 'react-hook-form'
 
 const Login = () => {
+
+	const [show,setShow] = useState(false)
+	const [serverResponse, setServerResponse] = useState("")
 
 	interface LoginData {
 		username: string,
@@ -32,14 +35,34 @@ const Login = () => {
 		fetch('/auth/login', requestParameters)
 		.then(response=>response.json())
 		.then(data => {
-			login(data.access_token)
-			navigate('/')
+			localStorage.setItem('user', JSON.stringify(data));
+			if (!data.success) {
+				setServerResponse(data.message)
+				setShow(true)
+			}
+			else {
+				login(data.access_token)
+				navigate('/')
+			}
 		})
-		.catch(error=>console.log(error))
+		.catch(error=>{
+			setServerResponse("An error occurred. Please try again.")
+			setShow(true)
+			console.log(error)})
 	}
 
 	return (
 		<div className="container">
+			{show?
+			<>
+				<Alert variant="danger" onClose={() => setShow(false)} dismissible>
+					<p>
+						{serverResponse}
+					</p>
+				</Alert>
+			</>
+			:null
+			}
 			<h1>Login</h1>
 			<div className="form">
 				<form onSubmit={handleSubmit(loginUser)}>
