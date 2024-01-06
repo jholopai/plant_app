@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, make_response
 from config import Development
-from models import User
+from models import User, Plant, Note
 from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, jwt_required
 from datetime import datetime
 from db import db
@@ -65,3 +65,55 @@ def password_change():
 		return jsonify({"message":"The password has been updated.", "success":True})
 	else:
 		return jsonify({"message": "The old password was incorrect.", "success":False})
+
+@app.route('/add_plant', methods=['POST'])
+@jwt_required()
+def add_plant():
+
+	data = request.get_json()
+	data_plant_name = data.get('plant_name')
+	data_username = data.get('username')
+
+	user = User.query.filter_by(username=data_username).first()
+	if user is None:
+		return jsonify({"message": "There was an error. Please contact admin if the issue persists", "success":False})
+	check_plant = Plant.query.filter_by(user_id=user.id, name=data_plant_name).first()
+	if check_plant is None:
+		new_plant = Plant(name=data_plant_name, user_id=user.id)
+		db.session.add(new_plant)
+		db.session.commit()
+		return jsonify({"message": f"{new_plant.name} was added.", "success": True})
+	else:
+		return jsonify({"message": "This plant already exists.", "success":False})
+
+@app.route('/plants_list', methods=['GET', 'POST'])
+@jwt_required()
+def plants_list():
+
+	data = request.get_json()
+	data_username = data.get('username')
+
+	user = User.query.filter_by(username=data_username).first()
+	if user is not None:
+		plants = Plant.query.filter_by(user_id=user.id).all()
+		plant_data = [{"plant_name": plant.name, "id": plant.id} for plant in plants]
+		return jsonify({"plants": plant_data, "success": True})
+	else:
+		return jsonify({"message": "There was an error. Please contact admin if the issue persists", "success":False})
+	
+
+@app.route('/notes_list', methods=['GET', 'POST'])
+@jwt_required()
+def notes_list():
+
+	data = request.get_json()
+	data_username = data.get('username')
+	data_plant_name = data.get('plant_name')
+
+	user = User.query.filter_by(username=data_username).first()
+	if user is not None:
+		notes = Note.query.filter_by(user_id=user.id, plant_name=data_plant_name).all()
+		notes_data = [{"date": note.date, "content":note.content, "id":note.id} for note in notes]
+		return jsonify({"notes": notes_data, "success": True})
+	else:
+		return jsonify({"message": "There was an error. Please contact admin if the issue persists", "success":False})

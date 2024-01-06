@@ -38,13 +38,13 @@ const Register = () => {
 			data.success ? setIsSuccesful(true) : setIsSuccesful(false)
 			setServerResponse(data.message)
 			setShow(true)
+			reset()
 		})
 		.catch(error=>{
 			setIsSuccesful(false)
 			setServerResponse("An error occurred. Please try again.");
 			setShow(true)
 			console.log(error)})
-		reset()
 	}
 
 	return (

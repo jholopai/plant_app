@@ -14,6 +14,15 @@ export default defineConfig({
 		  "/auth/password": {
 			target: "http://0.0.0.0:5000/",
 		  },
+		  "/add_plant": {
+			target: "http://0.0.0.0:5000/",
+		  },
+		  "/plants_list": {
+			target: "http://0.0.0.0:5000/",
+		  },
+		  "/notes_list": {
+			target: "http://0.0.0.0:5000/",
+		  },
 		},
 		
 	  },

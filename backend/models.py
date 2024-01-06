@@ -19,3 +19,20 @@ class User(db.Model):
 	def verify_password(self, password):
 		return check_password_hash(self.password_hash, password)
 	
+class Plant(db.Model):
+	__tablename__ = 'plants'
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(64), unique=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	def __repr__(self):
+		return '<Plant %r>' % self.name
+
+class Note(db.Model):
+	__tablename__ = 'notes'
+	id = db.Column(db.Integer, primary_key=True)
+	date = db.Column(db.Date)
+	content = db.Column(db.String(64))
+	plant_name = db.Column(db.String(64), db.ForeignKey('plants.name'))
+	user_id = db.Column(db.String(64), db.ForeignKey('users.id'))
+	def __repr__(self):
+		return '<Note %r>' % self.content
