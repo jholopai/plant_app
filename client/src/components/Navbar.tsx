@@ -1,19 +1,32 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 import { useAuth, logout } from '../auth';
+import { Link, useNavigate } from 'react-router-dom';
 
-const LoggedInLinks = () => {
+const Logout = () => {
+	const navigate = useNavigate()
 	return (
 		<>
-			<a className="btn btn-outline-secondary m-1" href="#" onClick={()=>{localStorage.clear();logout()}}>Logout</a>
+			<a className="btn btn-outline-secondary m-1" href="#" onClick={()=>{localStorage.clear();logout();navigate('/')}}>Logout</a>
 		</>
 )}
 
-const LoggedOutLinks = () => {
+const LogInRegister = () => {
 	return (
 		<>
 			<Link className="btn btn-outline-secondary m-1" to="/login">Login</Link>
 			<Link className="btn btn-outline-secondary m-1" to="/register">Register</Link>
+		</>
+)}
+
+const LoggedInLinks = () => {
+	return (
+		<>
+			<li className="nav-item">
+				<Link className="nav-link" to="/plants">Plants</Link>
+			</li>
+			<li className="nav-item">
+				<Link className="nav-link" to="/calendar">Calendar</Link>
+			</li>
 		</>
 )}
 
@@ -34,16 +47,11 @@ const Navbar = () => {
 					<li className="nav-item">
 						<Link className="nav-link" to="/">Home</Link>
 					</li>
-					<li className="nav-item">
-						<Link className="nav-link" to="/plants">Plants</Link>
-					</li>
-					<li className="nav-item">
-						<Link className="nav-link" to="/calendar">Calendar</Link>
-					</li>
+					{logged?<LoggedInLinks/>:null}
 				</ul>
 			</div>
 			<div className="col-md-6 d-flex justify-content-end">
-			{logged?<LoggedInLinks/> : <LoggedOutLinks/>}
+			{logged?<Logout/> : <LogInRegister/>}
 			</div>
 		</nav>
 	)
