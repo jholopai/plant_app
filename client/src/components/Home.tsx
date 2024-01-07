@@ -79,7 +79,7 @@ const ChangePasswordForm = () => {
 		:null
 		}
 			<form onSubmit={handleSubmit(changePassword)}>
-				<Form.Group>
+				<Form.Group className="form-group">
 					<Form.Label>Old password</Form.Label>
 					<Form.Control type="password"
 						  {...register("oldPassword", {required:true,
@@ -87,7 +87,8 @@ const ChangePasswordForm = () => {
 													   maxLength:25})}/>
 					{errors.oldPassword && <span>Please provide a valid password.</span>}
 				</Form.Group>
-				<Form.Group>
+				<br></br>
+				<Form.Group className="form-group">
 					<Form.Label>New password</Form.Label>
 					<Form.Control type="password"
 						  {...register("newPassword", {required:true,
@@ -96,7 +97,7 @@ const ChangePasswordForm = () => {
 					{errors.newPassword?.type=="required" && <span>Please provide new password.</span>}
 					{(errors.newPassword?.type=="minLength" || errors.newPassword?.type === "maxLength") && <span>Password must be between 10 and 25 characters long.</span>}
 				</Form.Group>
-				<Form.Group>
+				<Form.Group className="form-group">
 					<Form.Label>Confirm password</Form.Label>
 					<Form.Control type="password"
 						  {...register("confirmPassword", {required:true,
@@ -106,7 +107,7 @@ const ChangePasswordForm = () => {
 					{errors.confirmPassword && <span>Please provide a valid password.</span>}
 				</Form.Group>
 				<Form.Group>
-					<Button type="submit" variant="primary">Change password</Button>
+					<Button className="submit-button" type="submit" variant="primary">Change password</Button>
 				</Form.Group>
 			</form>
 		</div>
@@ -117,9 +118,9 @@ const LoggedInHome = () => {
 	const username = getUsername();
 
 	return (
-		<div>
+		<div className="home">
 			<h1>Hi {username}!</h1>
-			<Accordion>
+			<Accordion className="accordion">
 				<Accordion.Item eventKey="0">
 					<Accordion.Header>Change your password</Accordion.Header>
 					<Accordion.Body>

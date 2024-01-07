@@ -1,0 +1,26 @@
+
+.page {
+	width:60%;
+	margin:auto;
+	margin-top: 5vh;
+}
+
+.form-group {
+	margin-top:1vh;
+	margin-bottom:1vh;
+}
+
+.accordion {
+	margin-top:2vh;
+}
+
+.submit-button {
+	margin-top:2vh;
+	margin-bottom:2vh;
+}
+
+@media only screen and (max-width: 767px) {
+	.page {
+		width:90%;
+	}
+}

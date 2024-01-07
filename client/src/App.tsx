@@ -1,4 +1,5 @@
 import React from "react";
+import './styles/styles.css';
 import Home from './components/Home.tsx'
 import Login from './components/Login.tsx';
 import Navbar from './components/Navbar.tsx';
@@ -17,13 +18,15 @@ function App() {
 		<BrowserRouter>
 			<div className="container-fluid">
 				<Navbar/>
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/calendar" element={<Calendar />} />
-					<Route path="/plants" element={<Plants />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/register" element={<Register />} />
-				</Routes>
+				<div className="page">
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/calendar" element={<Calendar />} />
+						<Route path="/plants" element={<Plants />} />
+						<Route path="/login" element={<Login />} />
+						<Route path="/register" element={<Register />} />
+					</Routes>
+				</div>
 			</div>
 		</BrowserRouter>
 	);

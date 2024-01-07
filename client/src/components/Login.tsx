@@ -66,7 +66,7 @@ const Login = () => {
 			<h1>Login</h1>
 			<div className="form">
 				<form onSubmit={handleSubmit(loginUser)}>
-					<Form.Group>
+					<Form.Group className="form-group">
 						<Form.Label>Username</Form.Label>
 						<Form.Control type="text"
 									  {...register("username", {required:true,
@@ -75,7 +75,7 @@ const Login = () => {
 																pattern: /[a-zA-Z0-9]*/})}/>
 						{errors.username && <span>Please provide a valid username.</span>}
 					</Form.Group>
-					<Form.Group>
+					<Form.Group className="form-group">
 						<Form.Label>Password</Form.Label>
 						<Form.Control type="password"
 									  {...register("password", {required:true,
@@ -84,7 +84,7 @@ const Login = () => {
 						{errors.password && <span>Please provide a valid password.</span>}
 					</Form.Group>
 					<Form.Group>
-						<Button type="submit" variant="primary">Log in</Button>
+						<Button className="submit-button" type="submit" variant="primary">Log in</Button>
 					</Form.Group>
 					<Form.Group>
 						<small>Don't have an account? <Link to='/register'>You can register one here!</Link></small>

@@ -61,7 +61,7 @@ const Register = () => {
 			<h1>Register</h1>
 			<div className="form">
 				<form onSubmit={handleSubmit(registration)}>
-					<Form.Group>
+					<Form.Group className="form-group">
 						<Form.Label>Username</Form.Label>
 						<Form.Control type="text"
 									  placeholder="Your username"
@@ -73,7 +73,7 @@ const Register = () => {
 						{(errors.username?.type=="minLength" || errors.username?.type === "maxLength") && <span>Username must be between 5 and 25 characters long.</span>}
 						{errors.username?.type=="pattern" && <span>Username can only contain alphabeticals and numerals.</span>}
 					</Form.Group>
-					<Form.Group>
+					<Form.Group className="form-group">
 						<Form.Label>Email</Form.Label>
 						<Form.Control type="email"
 									  placeholder="Your email"
@@ -85,7 +85,7 @@ const Register = () => {
 						{(errors.email?.type=="minLength" || errors.email?.type === "maxLength") && <span>Email must be between 6 and 60 characters long.</span>}
 						{errors.email?.type=="pattern" && <span>Email is not valid.</span>}
 					</Form.Group>
-					<Form.Group>
+					<Form.Group className="form-group">
 						<Form.Label>Password</Form.Label>
 						<Form.Control type="password"
 									  placeholder="Your password"
@@ -95,7 +95,7 @@ const Register = () => {
 						{errors.password?.type=="required" && <span>Password is required.</span>}
 						{(errors.password?.type=="minLength" || errors.password?.type === "maxLength") && <span>Password must be between 10 and 25 characters long.</span>}
 					</Form.Group>
-					<Form.Group>
+					<Form.Group className="form.group">
 						<Form.Label>Confirm password</Form.Label>
 						<Form.Control type="password"
 									  placeholder="Confirm password"
@@ -106,7 +106,7 @@ const Register = () => {
 						{errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
 					</Form.Group>
 					<Form.Group>
-						<Button type="submit" variant="primary">Register</Button>
+						<Button className="submit-button" type="submit" variant="primary">Register</Button>
 					</Form.Group>
 					<Form.Group>
 						<small>Already have an account? <Link to='/login'>You can log in here!</Link></small>

@@ -154,7 +154,7 @@ const PlantForm = () => {
 	return (
 		<div>
 			<form onSubmit={handleSubmit(addPlant)}>
-				<Form.Group>
+				<Form.Group className="form-group">
 					<Form.Label>Name</Form.Label>
 					<Form.Control  type="text"
 							placeholder="e.g. Apple"
@@ -166,7 +166,7 @@ const PlantForm = () => {
 						{(errors.plant_name?.type=="minLength" || errors.plant_name?.type === "maxLength") && <span>Name must be between 3 and 60 characters long.</span>}
 						{errors.plant_name?.type=="pattern" && <span>Name can only contain alphabeticals and dashes (-).</span>}
 				</Form.Group>
-				<Form.Group>
+				<Form.Group className="submit-button">
 					<Button type="submit" variant="primary">Add plant</Button>
 				</Form.Group>
 			</form>
