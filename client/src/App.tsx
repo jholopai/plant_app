@@ -1,5 +1,4 @@
-import React from "react";
-import './styles/styles.css';
+import { React, useEffect } from "react";
 import Home from './components/Home.tsx'
 import Login from './components/Login.tsx';
 import Navbar from './components/Navbar.tsx';
@@ -7,15 +6,43 @@ import Plants from './components/Plants.tsx';
 import Calendar from './components/Calendar.tsx';
 import Register from './components/Register.tsx';
 import {
-	BrowserRouter,
 	Routes,
-	Route
+	Route, 
+	useLocation
 } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
- 
-function App() { 
+import './styles/styles.css';
+
+function App() {
+
+	const location = useLocation();
+
+	useEffect(() => {
+		const currentRoute = location.pathname;
+
+		switch (currentRoute) {
+			case '/':
+				document.title = 'The Plant App - Home';
+				break;
+			case '/calendar':
+				document.title = 'The Plant App - Calendar';
+				break;
+			case '/plants':
+				document.title = 'The Plant App - Plants';
+				break;
+			case '/login':
+				document.title = 'The Plant App - Login';
+				break;
+			case '/register':
+				document.title = 'The Plant App - Register';
+				break;
+			default:
+				document.title = 'The Plant App';
+				break;
+		}
+	}, [location.pathname]);
+
 	return (
-		<BrowserRouter>
 			<div className="container-fluid">
 				<Navbar/>
 				<div className="page">
@@ -28,8 +55,7 @@ function App() {
 					</Routes>
 				</div>
 			</div>
-		</BrowserRouter>
 	);
 }
- 
+
 export default App;
